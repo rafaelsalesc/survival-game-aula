@@ -19,8 +19,8 @@ local PlayerLoaded:BindableEvent = game:GetService("ServerStorage").BindableEven
 local PlayerUnloaded:BindableEvent = game:GetService("ServerStorage").BindableEvents.PlayerUnloaded
 
 
-
-
+local PlayerHungerUpdated:RemoteEvent = game:GetService("ReplicatedStorage").Network.PlayerHungerUpdated
+local PlayerInventoryUpdated:RemoteEvent = game:GetService("ReplicatedStorage").Network.PlayerInventoryUpdated
 
 
 local function normalizeHunger(hunger:number)
@@ -84,6 +84,9 @@ local function onPlayerAdded(player:Player):number
 
         -- Player is fully loaded
         PlayerLoaded:Fire(player)
+
+        PlayerHungerUpdated:FireClient(player, PlayerModule.GetHunger(player))
+        PlayerInventoryUpdated:FireClient(player, PlayerModule.GetInventory(player) )
 
     end)
 end

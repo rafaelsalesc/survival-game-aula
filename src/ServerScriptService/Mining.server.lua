@@ -10,7 +10,7 @@ local PICKAXE_SOUND_ID = "rbxassetid://7650230644"
 
 -- MEMBERS
 local PlayerModule = require(game:GetService("ServerStorage").Modules.PlayerModule)
-local PlayerHungerUpdated: RemoteEvent = game:GetService("ReplicatedStorage").Network.PlayerHungerUpdated
+local PlayerInventoryUpdated: RemoteEvent = game:GetService("ReplicatedStorage").Network.PlayerInventoryUpdated
 local animation = Instance.new("Animation")
 animation.AnimationId = "rbxassetid://111260589216243"
 local isPressing = false
@@ -37,6 +37,7 @@ local function onPromptTriggered(promptObject: ProximityPrompt, player)
 	local miningValue = miningModel:FindFirstChildWhichIsA("NumberValue")
 	
     PlayerModule.AddToInventory(player, miningValue.Name, miningValue.Value)
+    PlayerInventoryUpdated:FireClient(player, PlayerModule.GetInventory(player))
     
     print(PlayerModule.GetInventory(player))
 end
